@@ -9,6 +9,9 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,regular,500,600,700,800,900,100italic,200italic,300italic,italic,500italic,600italic,700italic,800italic,900italic" rel="stylesheet" />
 </head>
 <body>
+    <div id="preloader">
+  <img src="./img/logo.png" alt="AqylFerma" class="preloader-logo">
+</div>
     <div class="header">
             <img src="./img/logo.png" alt="">
     </div>
@@ -76,7 +79,7 @@
     </main>
 
     <script>
-        window.onload = function () {
+ window.onload = function () {
   const canvas = document.getElementById("pieChart");
   const ctx = canvas.getContext("2d");
 
@@ -147,10 +150,32 @@
     }
   }
 
-  animate();
+  // Запускаем анимацию через 2 секунды после загрузки страницы
+  setTimeout(() => {
+    animate();
+  }, 1500);
 };
 
 
     </script>
+
+
+<script>
+  window.addEventListener('load', function () {
+    const preloader = document.getElementById('preloader');
+    const content = document.getElementById('main-content');
+
+    setTimeout(() => {
+      preloader.style.opacity = '0';
+      preloader.style.transition = '0.5s ease';
+      setTimeout(() => {
+        preloader.style.display = 'none';
+        content.style.display = 'block';
+      }, 500);
+    }, 1000); // Можно увеличить, если нужно дольше
+  });
+</script>
+
+
 </body>
 </html>
