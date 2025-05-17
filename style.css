@@ -60,36 +60,59 @@ body {
     padding-top: 30px;
 }
 
+.color-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #f9f9f9;
+  padding: 10px 18px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+  cursor: default;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.color-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+
+.color-card1, .color-card2, .color-card3 {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  flex-shrink: 0;
+  transition: box-shadow 0.3s ease;
+}
+
 .color-card1 {
-    width: 20px;
-    height: 20px;
-    border-radius: 10px;
-    background-color: #3bae51;
+  background-color: #4caf50; /* чуть ярче зеленый */
 }
 
 .color-card2 {
-    width: 20px;
-    height: 20px;
-    border-radius: 10px;
-    background-color: #ffc107;
+  background-color: #ffca28; /* ярче желтый */
 }
 
 .color-card3 {
-    width: 20px;
-    height: 20px;
-    border-radius: 10px;
-    background-color: #f44336;
-}
-
-.color-item {
-    display: flex;
-    align-items: center;
-    gap: 5px;
+  background-color: #e53935; /* насыщенный красный */
 }
 
 .color-item p {
-    font-size: 18px;
+  font-size: 17px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+  user-select: none;
 }
+
+.color-item-wramp {
+  display: flex;
+  gap: 15px;
+  margin: 20px 0;
+  flex-wrap: wrap;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}   
 
 .recommend-btn {
   background: linear-gradient(135deg, #4caf50, #81c784);
