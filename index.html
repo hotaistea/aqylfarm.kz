@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AqylFarm</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,regular,500,600,700,800,900,100italic,200italic,300italic,italic,500italic,600italic,700italic,800italic,900italic" rel="stylesheet" />
+</head>
+<body>
+    <div class="header">
+            <img src="./img/logo.png" alt="">
+    </div>
+    <main class="main">
+        <div class="container">
+            <div class="main__content-flex">
+                <div class="main_card">
+                    <img src="./img/icons8-дрон-40.png" alt="">
+                    <h3>Мониторинг дрона</h3>
+                </div>
+                <div class="main_card">
+                    <img src="./img/death-plant.png" alt="">
+                    <h3>Выявление болезни</h3>
+                </div>
+            </div>
+            <div class="main_card-map">
+                <h3>Открыть карту участка</h3>
+            </div>
+            <div class="main__content-analitics">
+                <div class="title">
+                    <h2>Состояние растений:</h2>
+                </div>
+                <div class="chart-container">
+                    <canvas id="pieChart" width="300" height="300"></canvas>
+                </div>
+                <div class="color-item-wramp">
+                    <div class="color-item">
+                        <div class="color-card1"></div>
+                        <p> - Растение здорово</p>
+                    </div>
+                    <div class="color-item">
+                        <div class="color-card2"></div>
+                        <p> - Подозрение на болезнь</p>
+                    </div>
+                    <div class="color-item">
+                        <div class="color-card3"></div>
+                        <p> - Болезнь</p>
+                    </div>
+                </div>
+                
+                <button class="recommend-btn">📋 Посмотреть рекомендации</button>
+                <button class="plant-forecast-btn">
+  🌿 Прогноз состояния растений
+</button>
+            </div>
+        </div>
+        <div class="bottom-nav">
+  <a href="#" class="nav-item active">
+    <i class="fas fa-home"></i>
+    <span>Главная</span>
+  </a>
+  <a href="#" class="nav-item">
+    <i class="fas fa-route"></i>
+    <span>Маршрут</span>
+  </a>
+  <a href="#" class="nav-item">
+    <i class="fas fa-coins"></i>
+    <span>Подписка</span>
+  </a>
+  <a href="#" class="nav-item">
+    <i class="fas fa-user"></i>
+    <span>Профиль</span>
+  </a>
+</div>
+    </main>
+
+    <script>
+        window.onload = function () {
+  const canvas = document.getElementById("pieChart");
+  const ctx = canvas.getContext("2d");
+
+  const data = [
+    { label: "Здорово", value: 70, color: "#4caf50" },
+    { label: "Подозрение", value: 20, color: "#ffc107" },
+    { label: "Болезнь", value: 10, color: "#f44336" },
+  ];
+
+  const total = data.reduce((sum, item) => sum + item.value, 0);
+  const centerX = canvas.width / 2;
+  const centerY = canvas.height / 2;
+  const radius = 120;
+
+  let currentAngle = -0.5 * Math.PI;
+
+  function drawPieSlice(startAngle, endAngle, color) {
+    ctx.beginPath();
+    ctx.moveTo(centerX, centerY);
+    ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+    ctx.closePath();
+    ctx.fillStyle = color;
+    ctx.shadowColor = "rgba(0, 0, 0, 0.1)";
+    ctx.shadowBlur = 10;
+    ctx.fill();
+    ctx.shadowBlur = 0; // Отключаем тень после заливки
+  }
+
+  function drawLabel(text, startAngle, endAngle) {
+    const angle = (startAngle + endAngle) / 2;
+    const labelX = centerX + Math.cos(angle) * radius * 0.55;
+    const labelY = centerY + Math.sin(angle) * radius * 0.55;
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "bold 16px 'Segoe UI'";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    // Тень текста
+    ctx.shadowColor = "rgba(0,0,0,0.2)";
+    ctx.shadowBlur = 5;
+    ctx.fillText(text, labelX, labelY);
+    ctx.shadowBlur = 0;
+  }
+
+  let animationProgress = 0;
+  const animationSteps = 60;
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    let angle = currentAngle;
+
+    for (let i = 0; i < data.length; i++) {
+      const sliceAngle = (2 * Math.PI * data[i].value) / total;
+      const animatedAngle = sliceAngle * (animationProgress / animationSteps);
+
+      drawPieSlice(angle, angle + animatedAngle, data[i].color);
+
+      if (animationProgress === animationSteps) {
+        drawLabel(`${data[i].value}%`, angle, angle + animatedAngle);
+      }
+
+      angle += animatedAngle;
+    }
+
+    if (animationProgress < animationSteps) {
+      animationProgress++;
+      requestAnimationFrame(animate);
+    }
+  }
+
+  animate();
+};
+
+
+    </script>
+</body>
+</html>
